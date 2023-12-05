@@ -1,11 +1,13 @@
-package PersistenceTier.Application.DAOs;
+package UserSystemStack.PersistenceTier.Application.DAOs;
 
-import PersistenceTier.Application.DAOs.DaoInterfaces.IUserDao;
-import PersistenceTier.Database.ConnectionPool;
-import Shared.DTOs.LoginDto;
-import Shared.DTOs.RegisterDto;
-import Shared.DTOs.UserDto;
-import Shared.DTOs.UserInfoDto;
+import UserSystemStack.PersistenceTier.Application.DAOs.Interfaces.IUserDao;
+import UserSystemStack.PersistenceTier.Database.ConnectionPool;
+import UserSystemStack.Shared.DTOs.LoginDto;
+import UserSystemStack.Shared.DTOs.RegisterDto;
+import UserSystemStack.Shared.DTOs.UserDto;
+import UserSystemStack.Shared.DTOs.UserInfoformationDto;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +16,7 @@ import java.sql.SQLException;
 
 public class UserDao implements IUserDao {
     @Override
-    public UserInfoDto getUserInfo(UserDto userDto){
+    public UserInfoformationDto getUserInfo(UserDto userDto){
         String sql = "SELECT username, email, phone_number FROM users WHERE username = ?";
 
         try (Connection conn = ConnectionPool.getDataSource().getConnection();
@@ -24,14 +26,17 @@ public class UserDao implements IUserDao {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return new UserInfoDto(rs.getString("username"), rs.getString("email"), rs.getString("phone_number"));
+                    return new UserInfoformationDto(
+                            rs.getString("username"),
+                            rs.getString("email"),
+                            rs.getString("phone_number")
+                    );
                 } else {
                     // Handle the case where the result set is empty
                     throw new SQLException("username does not exist");
                 }
             }
         } catch (SQLException e) {
-            // Handle SQL exceptions appropriately
             e.printStackTrace();
             throw new RuntimeException("Internal Database Error");
         }
@@ -55,14 +60,13 @@ public class UserDao implements IUserDao {
                 }
             }
         } catch (SQLException e) {
-            // Handle SQL exceptions appropriately
             e.printStackTrace();
             throw new RuntimeException("Internal Database Error");
         }
     }
 
     @Override
-    public String register(RegisterDto registerDto) {
+    public boolean register(RegisterDto registerDto) {
         String sql = "INSERT INTO users (username, password, email, phone_number) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = ConnectionPool.getDataSource().getConnection();
@@ -75,13 +79,12 @@ public class UserDao implements IUserDao {
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows > 0) {
-                return "OK";
+                return true;
             } else {
                 // Handle the case where no rows are affected
                 throw new SQLException("Provided username or password already exists");
             }
         } catch (SQLException e) {
-            // Handle SQL exceptions appropriately
             e.printStackTrace();
             throw new RuntimeException("Internal Database Error");
         }

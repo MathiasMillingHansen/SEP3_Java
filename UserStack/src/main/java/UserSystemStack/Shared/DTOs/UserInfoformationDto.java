@@ -1,12 +1,12 @@
-package Shared.DTOs;
+package UserSystemStack.Shared.DTOs;
 
-public class UserInfoDto {
+public class UserInfoformationDto {
 
     private String username;
     private String email;
     private String phoneNumber;
 
-    public UserInfoDto(String username, String email, String phoneNumber) {
+    public UserInfoformationDto(String username, String email, String phoneNumber) {
         this.username = username;
         this.email = email;
         this.phoneNumber = phoneNumber;

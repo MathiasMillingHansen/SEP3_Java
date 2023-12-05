@@ -1,4 +1,4 @@
-package Shared.DTOs;
+package UserSystemStack.Shared.DTOs;
 
 public class UserDto {
 

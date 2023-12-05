@@ -1,9 +1,9 @@
-package PersistenceTier.Application;
+package UserSystemStack.PersistenceTier.Application;
 
-import PersistenceTier.Application.DAOs.UserDao;
-import Shared.DTOs.LoginDto;
-import Shared.DTOs.RegisterDto;
-import Shared.DTOs.UserDto;
+import UserSystemStack.PersistenceTier.Application.DAOs.UserDao;
+import UserSystemStack.Shared.DTOs.LoginDto;
+import UserSystemStack.Shared.DTOs.RegisterDto;
+import UserSystemStack.Shared.DTOs.UserDto;
 
 public class TestMain {
     public static void main(String[] args) {

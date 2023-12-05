@@ -1,4 +1,4 @@
-package PersistenceTier.Database;
+package UserSystemStack.PersistenceTier.Database;
 
 import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariConfig;

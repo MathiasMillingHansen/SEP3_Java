@@ -2,7 +2,6 @@ package UserSystemStack.BusinessTier.Application.DAOs;
 
 import UserSystemStack.*;
 import UserSystemStack.BusinessTier.Application.DAOs.Interfaces.IUserDao;
-import UserSystemStack.BusinessTier.Application.DAOs.Interfaces.IUserInfoDao;
 import UserSystemStack.Shared.DTOs.LoginDto;
 import UserSystemStack.Shared.DTOs.RegisterDto;
 import UserSystemStack.Shared.DTOs.UserInfoDto;
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("singleton")
-public class UserDao implements IUserDao, IUserInfoDao {
+public class UserDao implements IUserDao {
 
     @Override
     public boolean register(RegisterDto registerDto) {

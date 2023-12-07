@@ -1,11 +1,9 @@
 package UserSystemStack.BusinessTier.Server.RabbitMQ;
 
-import UserSystemStack.BusinessTier.Application.DAOs.Interfaces.IUserInfoDao;
-import UserSystemStack.BusinessTier.Application.DAOs.UserDao;
+import UserSystemStack.BusinessTier.Application.Logic.Interfaces.IUserInfoLogic;
 import com.rabbitmq.client.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 
@@ -17,11 +15,11 @@ public class BusinessReceiver {
     private static final String EXCHANGE_NAME = "UserInfoExchange";
     private static final String ROUTING_KEY = "UserInfoRouting";
 
-    IUserInfoDao userInfoDao;
+    IUserInfoLogic userInfoLogic;
 
     @Autowired
-    public BusinessReceiver(IUserInfoDao userDao) {
-        this.userInfoDao = userDao;
+    public BusinessReceiver(IUserInfoLogic userInfoLogic) {
+        this.userInfoLogic = userInfoLogic;
     }
 
     public void startReceiving() throws Exception {
@@ -63,7 +61,7 @@ public class BusinessReceiver {
     }
 
     public boolean validateUser(String message) {
-        return userInfoDao.userExists(message);
+        return userInfoLogic.userExists(message);
     }
 
     public String deserializeUser(byte[] message) {

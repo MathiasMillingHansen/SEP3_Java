@@ -45,8 +45,17 @@ message getUserInformationResponse {
     userInformationMessage message = 1;
 }
 
+message userValidationRequest {
+    string username = 1;
+}
+
+message userValidationResponse {
+    bool success = 1;
+}
+
 service UserService {
     rpc register(registerRequest) returns (registerResponse);
     rpc login(loginRequest) returns (loginResponse);
     rpc getUserInformation(getUserInformationRequest) returns (getUserInformationResponse);
+    rpc userValidation(userValidationRequest) returns (userValidationResponse);
 }

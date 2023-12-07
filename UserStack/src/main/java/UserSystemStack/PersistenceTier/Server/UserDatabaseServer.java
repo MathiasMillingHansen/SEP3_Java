@@ -5,7 +5,15 @@ import UserSystemStack.PersistenceTier.Application.DAOs.Interfaces.IUserDao;
 import UserSystemStack.Shared.DTOs.LoginDto;
 import UserSystemStack.Shared.DTOs.RegisterDto;
 import UserSystemStack.Shared.DTOs.UserDto;
-import UserSystemStack.Shared.DTOs.UserInfoformationDto;
+import UserSystemStack.Shared.DTOs.UserInfoDto;
+import UserSystemStack.UserServiceGrpc;
+import UserSystemStack.getUserInformationRequest;
+import UserSystemStack.getUserInformationResponse;
+import UserSystemStack.loginRequest;
+import UserSystemStack.loginResponse;
+import UserSystemStack.registerRequest;
+import UserSystemStack.registerResponse;
+import UserSystemStack.userInformationMessage;
 import io.grpc.stub.StreamObserver;
 
 public class UserDatabaseServer extends UserServiceGrpc.UserServiceImplBase {
@@ -39,7 +47,7 @@ public class UserDatabaseServer extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     public void login(loginRequest request,
-                      StreamObserver<loginResponse> responseObserver) {
+                      StreamObserver<UserSystemStack.loginResponse> responseObserver) {
         LoginDto dto = new LoginDto(
                 request.getMessage().getUsername(),
                 request.getMessage().getPassword()
@@ -58,22 +66,37 @@ public class UserDatabaseServer extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     public void getUserInformation(getUserInformationRequest request,
-                            StreamObserver<getUserInformationResponse> responseObserver) {
+                                   StreamObserver<getUserInformationResponse> responseObserver) {
         UserDto dto = new UserDto(
                 request.getUsername()
         );
 
-        UserInfoformationDto userInfoformationDto = userDao.getUserInfo(dto);
+        UserInfoDto userInfoDto = userDao.getUserInfo(dto);
 
         getUserInformationResponse.Builder responseBuilder = getUserInformationResponse.newBuilder();
 
         responseBuilder.setMessage(
                 userInformationMessage.newBuilder()
-                        .setUsername(userInfoformationDto.getUsername())
-                        .setEmail(userInfoformationDto.getEmail())
-                        .setPhoneNumber(userInfoformationDto.getPhoneNumber())
+                        .setUsername(userInfoDto.getUsername())
+                        .setEmail(userInfoDto.getEmail())
+                        .setPhoneNumber(userInfoDto.getPhoneNumber())
                         .build()
         );
+
+        responseObserver.onNext(responseBuilder.build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void userValidation(UserSystemStack.userValidationRequest request,
+                           StreamObserver<UserSystemStack.userValidationResponse> responseObserver) {
+        String username = request.getUsername();
+
+        boolean exists = userDao.userExists(username);
+
+        userValidationResponse.Builder responseBuilder = userValidationResponse.newBuilder();
+
+        responseBuilder.setSuccess(exists);
 
         responseObserver.onNext(responseBuilder.build());
         responseObserver.onCompleted();

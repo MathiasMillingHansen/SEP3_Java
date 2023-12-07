@@ -5,9 +5,7 @@ import UserSystemStack.PersistenceTier.Database.ConnectionPool;
 import UserSystemStack.Shared.DTOs.LoginDto;
 import UserSystemStack.Shared.DTOs.RegisterDto;
 import UserSystemStack.Shared.DTOs.UserDto;
-import UserSystemStack.Shared.DTOs.UserInfoformationDto;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import UserSystemStack.Shared.DTOs.UserInfoDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +14,7 @@ import java.sql.SQLException;
 
 public class UserDao implements IUserDao {
     @Override
-    public UserInfoformationDto getUserInfo(UserDto userDto){
+    public UserInfoDto getUserInfo(UserDto userDto){
         String sql = "SELECT username, email, phone_number FROM users WHERE username = ?";
 
         try (Connection conn = ConnectionPool.getDataSource().getConnection();
@@ -26,7 +24,7 @@ public class UserDao implements IUserDao {
 
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
-                    return new UserInfoformationDto(
+                    return new UserInfoDto(
                             rs.getString("username"),
                             rs.getString("email"),
                             rs.getString("phone_number")
@@ -83,6 +81,27 @@ public class UserDao implements IUserDao {
             } else {
                 // Handle the case where no rows are affected
                 throw new SQLException("Provided username or password already exists");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Internal Database Error");
+        }
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        String sql = "SELECT EXISTS (SELECT 1 FROM users WHERE UPPER(username) = UPPER(?))";
+        try (Connection conn = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, username);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getBoolean(1);
+                } else {
+                    return false;
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

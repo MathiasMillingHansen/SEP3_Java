@@ -3,9 +3,8 @@ package UserSystemStack.BusinessTier.Server.WebAPI.Controllers;
 import UserSystemStack.BusinessTier.Application.DAOs.Interfaces.IUserDao;
 import UserSystemStack.Shared.DTOs.LoginDto;
 import UserSystemStack.Shared.DTOs.RegisterDto;
-import UserSystemStack.Shared.DTOs.UserInfoformationDto;
+import UserSystemStack.Shared.DTOs.UserInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/userInformation")
-    public ResponseEntity<UserInfoformationDto> getUserInformation(@RequestParam("username") String username) {
+    public ResponseEntity<UserInfoDto> getUserInformation(@RequestParam("username") String username) {
         return ResponseEntity.ok(userDao.getUserInformation(username));
     }
 }

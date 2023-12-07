@@ -2,8 +2,7 @@ package UserSystemStack.BusinessTier.Application.DAOs.Interfaces;
 
 import UserSystemStack.Shared.DTOs.LoginDto;
 import UserSystemStack.Shared.DTOs.RegisterDto;
-import UserSystemStack.Shared.DTOs.UserInfoformationDto;
-import org.springframework.stereotype.Component;
+import UserSystemStack.Shared.DTOs.UserInfoDto;
 
 public interface IUserDao {
 
@@ -11,6 +10,6 @@ public interface IUserDao {
 
     boolean login(LoginDto loginDto);
 
-    UserInfoformationDto getUserInformation(String username);
+    UserInfoDto getUserInformation(String username);
 
 }

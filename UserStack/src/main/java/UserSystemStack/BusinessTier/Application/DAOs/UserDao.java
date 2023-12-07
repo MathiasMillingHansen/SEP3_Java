@@ -2,9 +2,10 @@ package UserSystemStack.BusinessTier.Application.DAOs;
 
 import UserSystemStack.*;
 import UserSystemStack.BusinessTier.Application.DAOs.Interfaces.IUserDao;
+import UserSystemStack.BusinessTier.Application.DAOs.Interfaces.IUserInfoDao;
 import UserSystemStack.Shared.DTOs.LoginDto;
 import UserSystemStack.Shared.DTOs.RegisterDto;
-import UserSystemStack.Shared.DTOs.UserInfoformationDto;
+import UserSystemStack.Shared.DTOs.UserInfoDto;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.context.annotation.Scope;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Scope("singleton")
-public class UserDao implements IUserDao {
+public class UserDao implements IUserDao, IUserInfoDao {
 
     @Override
     public boolean register(RegisterDto registerDto) {
@@ -44,14 +45,14 @@ public class UserDao implements IUserDao {
     }
 
     @Override
-    public UserInfoformationDto getUserInformation(String username) {
+    public UserInfoDto getUserInformation(String username) {
         UserServiceGrpc.UserServiceBlockingStub stub = getStub();
 
-        getUserInformationResponse response = stub.getUserInformation(getUserInformationRequest.newBuilder()
+        getUserInformationResponse response = stub.getUserInformation(UserSystemStack.getUserInformationRequest.newBuilder()
                 .setUsername(username)
                 .build());
 
-        return new UserInfoformationDto(response.getMessage().getUsername(),
+        return new UserInfoDto(response.getMessage().getUsername(),
                 response.getMessage().getEmail(),
                 response.getMessage().getPhoneNumber());
     }
@@ -66,5 +67,16 @@ public class UserDao implements IUserDao {
 
     private UserServiceGrpc.UserServiceBlockingStub getStub() {
         return UserServiceGrpc.newBlockingStub(getChannel());
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        UserServiceGrpc.UserServiceBlockingStub stub = getStub();
+
+        userValidationRequest request = userValidationRequest.newBuilder()
+                .setUsername(username)
+                .build();
+
+        return stub.userValidation(request).getSuccess();
     }
 }

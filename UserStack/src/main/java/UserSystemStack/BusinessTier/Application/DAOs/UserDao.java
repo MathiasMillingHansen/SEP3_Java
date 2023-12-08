@@ -51,7 +51,8 @@ public class UserDao implements IUserDao {
                 .setUsername(username)
                 .build());
 
-        return new UserInfoDto(response.getMessage().getUsername(),
+        return new UserInfoDto(
+                response.getMessage().getUsername(),
                 response.getMessage().getEmail(),
                 response.getMessage().getPhoneNumber());
     }

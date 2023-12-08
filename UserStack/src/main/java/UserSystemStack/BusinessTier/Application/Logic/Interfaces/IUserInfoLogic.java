@@ -6,6 +6,5 @@ public interface IUserInfoLogic {
 
     boolean userExists(String username);
 
-    UserInfoDto getUserInformation(String message);
-
+    UserInfoDto getUserInformation(String username);
 }

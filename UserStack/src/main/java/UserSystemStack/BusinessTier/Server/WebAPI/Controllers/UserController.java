@@ -30,9 +30,4 @@ public class UserController {
     public ResponseEntity<Boolean> login(@RequestBody LoginDto loginDto) {
         return ResponseEntity.ok(userLogic.login(loginDto));
     }
-
-    @GetMapping("/userInformation")
-    public ResponseEntity<UserInfoDto> getUserInformation(@RequestParam("username") String username) {
-        return ResponseEntity.ok(userLogic.getUserInformation(username));
-    }
 }

@@ -9,6 +9,4 @@ public interface IUserLogic {
     boolean register(RegisterDto registerDto);
 
     boolean login(LoginDto loginDto);
-
-    UserInfoDto getUserInformation(String username);
 }

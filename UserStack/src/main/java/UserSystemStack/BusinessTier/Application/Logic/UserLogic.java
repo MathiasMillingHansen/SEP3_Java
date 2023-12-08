@@ -55,10 +55,12 @@ public class UserLogic implements IUserLogic, IUserInfoLogic {
         String phoneNumber = registerDto.getPhoneNumber();
 
         if (username.length()<4 || username.length()>20) {
+            //Add verification of username characters.
             throw new IllegalArgumentException("Username must be between 4 and 20 characters.");
         }
 
         if (password.length()<4 || password.length()>20) {
+            //Add verification of password characters.
             throw new IllegalArgumentException("Password must be between 4 and 20 characters.");
         }
 

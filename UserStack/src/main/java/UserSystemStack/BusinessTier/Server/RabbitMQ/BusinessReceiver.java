@@ -60,7 +60,8 @@ public class BusinessReceiver {
 
         };
 
-        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
+        channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {
+        });
     }
 
     private UserInfoDto processGetUserInfoMessage(String message) {
@@ -69,7 +70,7 @@ public class BusinessReceiver {
 
     private String processSendMessage(String message) {
         String response;
-        if(validateUser(message)){
+        if (validateUser(message)) {
             System.out.println("User is valid");
             response = message;
         } else {

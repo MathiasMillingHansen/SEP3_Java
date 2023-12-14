@@ -1,13 +1,13 @@
 package UserSystemStack.PersistenceTier.Database;
 
-import com.zaxxer.hikari.HikariDataSource;
 import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
 
 public class ConnectionPool {
 
-    private static HikariDataSource dataSource;
+    private static final HikariDataSource dataSource;
 
     static {
         HikariConfig config = new HikariConfig();
@@ -19,6 +19,7 @@ public class ConnectionPool {
 
         dataSource = new HikariDataSource(config);
     }
+
     public static DataSource getDataSource() {
         return dataSource;
     }

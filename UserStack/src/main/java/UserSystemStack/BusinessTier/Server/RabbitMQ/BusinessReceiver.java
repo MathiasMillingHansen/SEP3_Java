@@ -49,10 +49,12 @@ public class BusinessReceiver {
 
             if (delivery.getEnvelope().getRoutingKey().equals(ROUTING_KEY_SEND)) {
                 String response = processSendMessage(message);
-                channel.basicPublish("", delivery.getProperties().getReplyTo(), replyProps, response.getBytes(StandardCharsets.UTF_8));
+                channel.basicPublish("", delivery.getProperties().getReplyTo()
+                        , replyProps, response.getBytes(StandardCharsets.UTF_8));
             } else if (delivery.getEnvelope().getRoutingKey().equals(ROUTING_KEY_GET)) {
                 UserInfoDto userInfoDto = processGetUserInfoMessage(message);
-                channel.basicPublish("", delivery.getProperties().getReplyTo(), replyProps, serializeUserInfo(userInfoDto).getBytes(StandardCharsets.UTF_8));
+                channel.basicPublish("", delivery.getProperties().getReplyTo()
+                        , replyProps, serializeUserInfo(userInfoDto).getBytes(StandardCharsets.UTF_8));
 
             }
 

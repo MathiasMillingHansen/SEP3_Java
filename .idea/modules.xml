@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/SEP3_Java_UnversionedFilesTest.iml" filepath="$PROJECT_DIR$/.idea/SEP3_Java_UnversionedFilesTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/UserStack/UserStack.iml" filepath="$PROJECT_DIR$/UserStack/UserStack.iml" />
     </modules>
   </component>

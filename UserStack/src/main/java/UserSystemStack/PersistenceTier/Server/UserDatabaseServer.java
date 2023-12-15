@@ -1,24 +1,16 @@
 package UserSystemStack.PersistenceTier.Server;
 
-import UserSystemStack.*;
 import UserSystemStack.PersistenceTier.Application.DAOs.Interfaces.IUserDao;
 import UserSystemStack.Shared.DTOs.LoginDto;
 import UserSystemStack.Shared.DTOs.RegisterDto;
 import UserSystemStack.Shared.DTOs.UserDto;
 import UserSystemStack.Shared.DTOs.UserInfoDto;
-import UserSystemStack.UserServiceGrpc;
-import UserSystemStack.getUserInformationRequest;
-import UserSystemStack.getUserInformationResponse;
-import UserSystemStack.loginRequest;
-import UserSystemStack.loginResponse;
-import UserSystemStack.registerRequest;
-import UserSystemStack.registerResponse;
-import UserSystemStack.userInformationMessage;
+import UserSystemStack.*;
 import io.grpc.stub.StreamObserver;
 
 public class UserDatabaseServer extends UserServiceGrpc.UserServiceImplBase {
 
-    private IUserDao userDao;
+    private final IUserDao userDao;
 
     public UserDatabaseServer(IUserDao userDao) {
         this.userDao = userDao;
@@ -89,7 +81,7 @@ public class UserDatabaseServer extends UserServiceGrpc.UserServiceImplBase {
 
     @Override
     public void userValidation(UserSystemStack.userValidationRequest request,
-                           StreamObserver<UserSystemStack.userValidationResponse> responseObserver) {
+                               StreamObserver<UserSystemStack.userValidationResponse> responseObserver) {
         String username = request.getUsername();
 
         boolean exists = userDao.userExists(username);

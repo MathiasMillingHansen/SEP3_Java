@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserLogic implements IUserLogic, IUserInfoLogic {
 
-    private IUserDao userDao;
+    private final IUserDao userDao;
 
     @Autowired
     public UserLogic(IUserDao userDao) {
@@ -27,13 +27,10 @@ public class UserLogic implements IUserLogic, IUserInfoLogic {
 
     @Override
     public boolean register(RegisterDto registerDto) {
-        try
-        {
+        try {
             validUser(registerDto);
             return userDao.register(registerDto);
-        }
-        catch (IllegalArgumentException e)
-        {
+        } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
     }
@@ -54,12 +51,12 @@ public class UserLogic implements IUserLogic, IUserInfoLogic {
         String email = registerDto.getEmail();
         String phoneNumber = registerDto.getPhoneNumber();
 
-        if (username.length()<4 || username.length()>20) {
+        if (username.length() < 4 || username.length() > 20) {
             //Add verification of username characters.
             throw new IllegalArgumentException("Username must be between 4 and 20 characters.");
         }
 
-        if (password.length()<4 || password.length()>20) {
+        if (password.length() < 4 || password.length() > 20) {
             //Add verification of password characters.
             throw new IllegalArgumentException("Password must be between 4 and 20 characters.");
         }
@@ -69,7 +66,7 @@ public class UserLogic implements IUserLogic, IUserInfoLogic {
             throw new IllegalArgumentException("Invalid email address.");
         }
 
-        if (phoneNumber.length()!=8) {
+        if (phoneNumber.length() != 8) {
             //Deal with cases of phone numbers with country code, and other lengths.
             throw new IllegalArgumentException("Phone number must be 8 digits.");
         }

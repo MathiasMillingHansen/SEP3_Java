@@ -1,12 +1,9 @@
 package UserSystemStack.BusinessTier.Server.WebAPI.Controllers;
 
-import UserSystemStack.BusinessTier.Application.DAOs.Interfaces.IUserDao;
 import UserSystemStack.BusinessTier.Application.Logic.Interfaces.IUserLogic;
 import UserSystemStack.Shared.DTOs.LoginDto;
 import UserSystemStack.Shared.DTOs.RegisterDto;
-import UserSystemStack.Shared.DTOs.UserInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 
-    private IUserLogic userLogic;
+    private final IUserLogic userLogic;
 
     @Autowired
     public UserController(IUserLogic userLogic) {

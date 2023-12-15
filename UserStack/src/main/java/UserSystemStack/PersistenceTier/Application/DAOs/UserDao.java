@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class UserDao implements IUserDao {
     @Override
-    public UserInfoDto getUserInfo(UserDto userDto){
+    public UserInfoDto getUserInfo(UserDto userDto) {
         String sql = "SELECT username, email, phone_number FROM users WHERE username = ?";
 
         try (Connection conn = ConnectionPool.getDataSource().getConnection();
